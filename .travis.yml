@@ -1,7 +1,4 @@
 language: java
 script: mvn test
-jdk:
-  - openjdk7
-
-  after_success:
+after_success:
   - mvn clean org.eluder.coveralls:coveralls-maven-plugin:report
