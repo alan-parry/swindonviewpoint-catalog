@@ -1,5 +1,5 @@
 language: java
-mvn test
+script: mvn test
 jdk:
   - oraclejdk8
   - oraclejdk7
