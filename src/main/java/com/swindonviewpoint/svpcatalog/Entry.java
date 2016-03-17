@@ -10,7 +10,7 @@ public class Entry {
 	
 	String duration;
 	
-	String title
+	String title;
 	
 	String description;
 	
