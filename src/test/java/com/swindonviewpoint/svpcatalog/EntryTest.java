@@ -20,4 +20,9 @@ public class EntryTest {
 	public void testGetPath(){
 		assertEquals(string, entry.getPath());
 	}
+
+	@Test
+	public void testGetId(){
+		assertEquals(integer, entry.getId());
+	}
 }
