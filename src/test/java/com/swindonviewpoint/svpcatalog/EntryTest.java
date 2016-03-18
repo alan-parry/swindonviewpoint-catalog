@@ -42,6 +42,11 @@ public class EntryTest {
 	}
 
 	@Test
+	public void testGetDuration(){
+		assertEquals(string, entry.getDuration());
+	}
+
+	@Test
 	public void testGetId(){
 		assertEquals(integer, entry.getId());
 	}
