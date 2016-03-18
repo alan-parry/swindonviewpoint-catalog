@@ -22,7 +22,22 @@ public class EntryTest {
 	}
 
 	@Test
+	public void testGetTitle(){
+		assertEquals(string, entry.getTitle());
+	}
+
+	@Test
+	public void testGetDescription(){
+		assertEquals(string, entry.getDescription());
+	}
+
+	@Test
 	public void testGetId(){
 		assertEquals(integer, entry.getId());
+	}
+
+	@Test
+	public void testGetNid(){
+		assertEquals(integer, entry.getNid());
 	}
 }
