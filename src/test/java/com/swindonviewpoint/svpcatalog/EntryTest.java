@@ -32,6 +32,21 @@ public class EntryTest {
 	}
 
 	@Test
+	public void testGetProducedDate(){
+		assertEquals(string, entry.getProducedDate());
+	}
+
+	@Test
+	public void testGetThumbnailUrl(){
+		assertEquals(string, entry.getThumbnailUrl());
+	}
+
+	@Test
+	public void testGetDuration(){
+		assertEquals(string, entry.getDuration());
+	}
+
+	@Test
 	public void testGetId(){
 		assertEquals(integer, entry.getId());
 	}
