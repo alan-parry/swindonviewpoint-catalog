@@ -13,6 +13,7 @@ public class SVPCatalogTest {
 	private String arg2;
 	private String[] args;
 	private String testURL = "http://www.swindonviewpoint.com/";
+	private String testBadURL = "http://bad/bad";
 	private int qrSize = 150;
 
 		
@@ -110,7 +111,7 @@ public class SVPCatalogTest {
 	@Test
 	public void testGetQRUrlBadUrl(){
 		String qRUrl = SVPCatalog.getQRUrl(testBadURL);
-		asertNull(qRUrl);
+		assertNull(qRUrl);
 	}
 
 }
