@@ -112,13 +112,13 @@ public class EntryTest {
 
 	@Test
 	public void testGetBaseDir(){
-		assertEquals(string, entry.getBaseDir());
+		assertEquals(string + File.separator, entry.getBaseDir());
 	}
 
 	@Test
 	public void testSetBaseDir(){
 		entry.setBaseDir(setString);
-		assertEquals(setString, entry.getBaseDir());
+		assertEquals(setString + File.separator, entry.getBaseDir());
 	}
 
 	@Test

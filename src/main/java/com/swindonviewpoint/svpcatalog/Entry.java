@@ -23,9 +23,9 @@ public class Entry {
 	private String baseDir;
 	
 	public static final String thumbnailFilename = "-thumb.jpg";
-	
 	public static final String qrFilename = "-qr.jpg";
-	
+	public static final String tempFolderName = "temp";
+
 	public Entry(int id, int nid, String duration, String title, String description,
 				 String thumbnailUrl, String producedDate, String path, String baseDir){
 		this.id = id;
@@ -39,16 +39,20 @@ public class Entry {
 		this.baseDir = baseDir;
 	}
 
+	public String getTempPath() {
+		return getBaseDir()  + tempFolderName + File.separator;
+	}
+
 	public String getThumbnailPath() {
-		return baseDir + File.separator + "temp" + File.separator + id + thumbnailFilename;
+		 return getTempPath() + id + thumbnailFilename;
 	}
 	
 	public String getQRPath() {
-		return baseDir + File.separator + "temp" + File.separator + id + qrFilename;
+		 return getTempPath() + id + qrFilename;
 	}
 
 	public String getBaseDir() {
-		return baseDir;
+		return baseDir + File.separator;
 	}
 
 	public void setBaseDir(String baseDir) {

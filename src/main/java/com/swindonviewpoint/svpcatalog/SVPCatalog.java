@@ -40,6 +40,9 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.FileImageOutputStream;
 
+import java.net.*;
+import java.io.*;
+
 public class SVPCatalog {
 
 	public static int A4width = 3250;
@@ -47,16 +50,17 @@ public class SVPCatalog {
 	public static int cols = 4;
 	public static int rows = 3;
 	
+	public static final String catalogCSVUrl = "http://www.swindonviewpoint.com/all_video.csv";
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		List<Entry> catalog = SVPCatalog.generateCatalog(args);
 		outputCatalog(catalog, args);
 	}
 	
 	public static void saveThumbnails(List<Entry> catalog, String args[]){
-		String filename = args[0].concat(File.separator + "social-action.csv");
+		String filename = args[0].concat(File.separator + "catalog.csv");
 		System.out.println("Parsing CSV file: "+filename);
 		try {
 			CsvReader reader = new CsvReader(filename);
@@ -82,22 +86,33 @@ public class SVPCatalog {
 		}
 	}
 	
-	public static List<Entry> generateCatalog(String args[]) {
+	public static List<Entry> generateCatalog(String args[]) throws IOException {
 		if (args.length < 3) {
-			System.out.println("Usage : SVPCatalog <workingPath> <startId> <endId>");
+			System.out.println("Usage : SVPCatalog <workingPath> <startId> <itemCount>");
 		}
 		
-		int i = 0;
+		int count = 0;
+		int catalogStartId = Integer.parseInt(args[1]);
+		int catalogItemCount = Integer.parseInt(args[2]);
 		List<Entry> catalog = new ArrayList<Entry>();
-		String filename = args[0].concat(File.separatorChar + "catalog.csv");
-		System.out.println("Parsing CSV file: "+filename);
+		URL catalogURL = new URL("http://www.swindonviewpoint.com/catalog.csv");
+		URLConnection connection = catalogURL.openConnection();
+        BufferedReader bufferedReader = new BufferedReader(
+                                new InputStreamReader(
+                                    connection.getInputStream()));
+
+		System.out.println("Parsing CSV file: " + catalogURL);
 		try {
-			CsvReader reader = new CsvReader(filename);
+			CsvReader reader = new CsvReader(bufferedReader);
 				
 			reader.readHeaders();
 		
-			while (reader.readRecord()){
-				Entry entry = new Entry(i++,
+			for (int i = 0; i < catalogStartId; i++) {
+				reader.readRecord();
+			}
+			while (reader.readRecord() && count < catalogItemCount){
+				System.out.println("nid="+reader.get("Nid"));
+				Entry entry = new Entry(count++,
 										Integer.parseInt(reader.get("Nid")),
 										reader.get("Duration"),
 										reader.get("Title"),
@@ -128,17 +143,21 @@ public class SVPCatalog {
 	}
 		
 	public static void outputCatalog(List<Entry> catalog, String args[]) {
-			//render out pages
-		int start = Integer.parseInt(args[1]);
-		int end   = Integer.parseInt(args[2]);
-		
+		//render pages
+		int catalogStartId = Integer.parseInt(args[1]);
+		int catalogItemCount = Integer.parseInt(args[2]);
+		int end = catalogStartId+catalogItemCount;
+
 		try {
-			InputStream is = new FileInputStream(args[0]+File.separator+"svp.ttf");
+			ClassLoader classLoader = SVPCatalog.class.getClassLoader();
+			File svpBoldFontFile = new File(classLoader.getResource("svp-bold.ttf").getFile());
+			InputStream is = new FileInputStream(svpBoldFontFile);
 		    Font font = Font.createFont(Font.TRUETYPE_FONT, is);
 		    Font subFont = font.deriveFont(22.0f);
 		    Font titleFont = font.deriveFont(30.0f);
 		    
-		    is = new FileInputStream(args[0]+File.separator+"microgrammadmediexte.ttf");
+		    File svpFontFile = new File(classLoader.getResource("svp.ttf").getFile());
+		    is = new FileInputStream(svpFontFile);
 		    Font medi = Font.createFont(Font.TRUETYPE_FONT, is);
 		    Font medi18 = medi.deriveFont(20.0f);
 		    
@@ -165,9 +184,9 @@ public class SVPCatalog {
 			//process static pages
 			for (int page = 1; page < pageNumberOffset; page++) {
 				System.out.println("generating static page "+ page);	
-				File staticPage = new File(args[0]+File.separator+"page"+page+"-static.jpeg");
-				System.out.println("processing "+ staticPage);
-				BufferedImage pageImage = ImageIO.read(staticPage);
+				File staticPageFile = new File(classLoader.getResource("static-page.jpeg").getFile());
+				System.out.println("processing "+ staticPageFile);
+				BufferedImage pageImage = ImageIO.read(staticPageFile);
 				Graphics2D staticGraphics = pageImage.createGraphics();
 				SVPCatalog.drawPageNumber(page, staticGraphics, args, leftOrRight, font);
 				File outputFile = new File(args[0]+File.separator+"page"+page+".jpeg");
@@ -189,7 +208,7 @@ public class SVPCatalog {
 			}
 			
 			
-			for (int page = start; page >= 0 && page <= end && page <= numPages; page++) {
+			for (int page = catalogStartId; page >= 0 && page <= end && page <= numPages; page++) {
 				effectivePageNum = page+pageNumberOffset;
 				if (leftOrRight) {
 					System.out.println("generating dynamic page "+ effectivePageNum + " (left page num)");	
@@ -205,9 +224,8 @@ public class SVPCatalog {
 					for(int l = 0; l < numCols; l++){ //cols
 						int imageId = ((page * numRows * numCols) + (k*numCols))+l;
 						Entry entry;
-						if (catalog.size() < imageId-1){
+						if (imageId < catalogItemCount){
 							
-						} else {
 							entry = catalog.get(imageId);
 							
 							BufferedImage thumbnail = null;
@@ -382,7 +400,9 @@ public class SVPCatalog {
 	    Font pageNumFont = font.deriveFont(40.0f);
 	    
 	    try {
-			logo = ImageIO.read(new File(args[0]+File.separator+"logo.png"));
+			ClassLoader classLoader = SVPCatalog.class.getClassLoader();
+			File logoFile = new File(classLoader.getResource("logo.png").getFile());
+			logo = ImageIO.read(logoFile);
 			
 			if (leftOrRight) {
 				pageNumX = 60;
@@ -416,7 +436,6 @@ public class SVPCatalog {
 			client.executeMethod(method);
 			String body = method.getResponseBodyAsString();
 			System.out.println("--URL--\n"+url);
-			//System.out.println(body.substring(body.indexOf("QRCode"), body.indexOf("QRCode")+300));
 			System.out.println(body);
 			int index = body.indexOf("QRCode");
 			index = body.indexOf("src=", index);
