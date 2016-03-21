@@ -8,6 +8,10 @@ public class EntryTest {
 	private static final int integer = 1;
 	private static final String string = "string";
 
+
+	private static final int setInteger = 2;
+	private static final String setString = "setString";
+
 	private Entry entry;
 
 	@Before
@@ -22,8 +26,20 @@ public class EntryTest {
 	}
 
 	@Test
+	public void testSetPath(){
+		entry.setPath(setString);
+		assertEquals(setString, entry.getPath());
+	}
+
+	@Test
 	public void testGetTitle(){
 		assertEquals(string, entry.getTitle());
+	}
+
+	@Test
+	public void testSetTitle(){
+		entry.setTitle(setString);
+		assertEquals(setString, entry.getTitle());
 	}
 
 	@Test
@@ -32,8 +48,20 @@ public class EntryTest {
 	}
 
 	@Test
+	public void testSetDescription(){
+		entry.setDescription(setString);
+		assertEquals(setString, entry.getDescription());
+	}
+
+	@Test
 	public void testGetProducedDate(){
 		assertEquals(string, entry.getProducedDate());
+	}
+
+	@Test
+	public void testSetProducedDate(){
+		entry.setProducedDate(setString);
+		assertEquals(setString, entry.getProducedDate());
 	}
 
 	@Test
@@ -42,8 +70,20 @@ public class EntryTest {
 	}
 
 	@Test
+	public void testSetThumbnailUrl(){
+		entry.setThumbnailUrl(setString);
+		assertEquals(setString, entry.getThumbnailUrl());
+	}
+
+	@Test
 	public void testGetDuration(){
 		assertEquals(string, entry.getDuration());
+	}
+
+	@Test
+	public void testSetDuration(){
+		entry.setDuration(setString);
+		assertEquals(setString, entry.getDuration());
 	}
 
 	@Test
@@ -52,7 +92,52 @@ public class EntryTest {
 	}
 
 	@Test
+	public void testSetId(){
+		entry.setId(setInteger);
+		assertEquals(setInteger, entry.getId());
+	}
+
+	@Test
 	public void testGetNid(){
 		assertEquals(integer, entry.getNid());
+	}
+
+	@Test
+	public void testSetNid(){
+		entry.setNid(setInteger);
+		assertEquals(setInteger, entry.getNid());
+	}
+
+	@Test
+	public void testGetBaseDir(){
+		assertEquals(string, entry.getBaseDir());
+	}
+
+	@Test
+	public void testSetBaseDir(){
+		entry.setBaseDir(setString);
+		assertEquals(setString, entry.getBaseDir());
+	}
+
+	@Test
+	public void testGetQRPath(){
+		assertEquals(string, entry.getQRPath());
+	}
+
+	@Test
+	public void testSetQRPath(){
+		entry.setQRPath(setString);
+		assertEquals(setString, entry.getQRPath());
+	}
+
+	@Test
+	public void testGetThumbnailPath(){
+		assertEquals(string, entry.getThumbnailPath());
+	}
+
+	@Test
+	public void testSetDescription(){
+		entry.setThumbnailPath(setString);
+		assertEquals(setString, entry.getThumbnailPath());
 	}
 }
