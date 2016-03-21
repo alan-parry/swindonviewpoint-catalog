@@ -39,7 +39,7 @@ public class SVPCatalogTest {
 	        }
 	    }
 
-        arg1 = "0";
+        arg1 = "1";
         arg2 = "24";
 
         args = new String[3];
