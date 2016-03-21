@@ -2,6 +2,7 @@ package com.swindonviewpoint.svpcatalog;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+import java.io.File;
 
 public class EntryTest {
 
@@ -122,13 +123,12 @@ public class EntryTest {
 
 	@Test
 	public void testGetQRPath(){
-		assertEquals(string, entry.getQRPath());
+		assertEquals(qrPathString, entry.getQRPath());
 	}
-
 
 	@Test
 	public void testGetThumbnailPath(){
-		assertEquals(string, entry.getThumbnailPath());
+		assertEquals(thumbnailPathString, entry.getThumbnailPath());
 	}
 
 }

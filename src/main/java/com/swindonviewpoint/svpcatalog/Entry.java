@@ -4,27 +4,30 @@ import java.io.File;
 
 public class Entry {
 
-	int id;
+	private int id;
 	
-	int nid;
+	private int nid;
 	
-	String duration;
+	private String duration;
 	
-	String title;
+	private String title;
 	
-	String description;
+	private String description;
 	
-	String thumbnailUrl;
+	private String thumbnailUrl;
 	
-	String producedDate;
+	private String producedDate;
 	
-	String path;
+	private String path;
 	
-	String baseDir;
+	private String baseDir;
 	
-	public Entry(int id, int nid, String duration, String title, 
-				String description, String thumbnailUrl, String producedDate,
-				String path, String baseDir){
+	public static final String thumbnailFilename = "-thumb.jpg";
+	
+	public static final String qrFilename = "-qr.jpg";
+	
+	public Entry(int id, int nid, String duration, String title, String description,
+				 String thumbnailUrl, String producedDate, String path, String baseDir){
 		this.id = id;
 		this.nid = nid;
 		this.duration = duration;
@@ -37,11 +40,11 @@ public class Entry {
 	}
 
 	public String getThumbnailPath() {
-		return baseDir + File.separator + "temp" + File.separator + id + "-thumb.jpg";
+		return baseDir + File.separator + "temp" + File.separator + id + thumbnailFilename;
 	}
 	
 	public String getQRPath() {
-		return baseDir + File.separator + "temp" + File.separator + id + "-qr.png";
+		return baseDir + File.separator + "temp" + File.separator + id + qrFilename;
 	}
 
 	public String getBaseDir() {
