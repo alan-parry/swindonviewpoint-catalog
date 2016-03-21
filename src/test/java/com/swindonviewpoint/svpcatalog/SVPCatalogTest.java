@@ -50,7 +50,7 @@ public class SVPCatalogTest {
 	}
 
 	@Test
-	public void testGenerateCatalogBadArguments(){
+	public void testGenerateCatalogBadArguments() throws IOException {
 		args = new String[0];
 		catalog = SVPCatalog.generateCatalog(args);
 		assertNull(catalog);
@@ -78,7 +78,7 @@ public class SVPCatalogTest {
 	}
 
 	@Test
-	public void testSaveImageUrl(){
+	public void testSaveImage(){
 		String filename = arg0+"testQr.jpg";
 		File testFile = new File(filename);
 		BufferedImage qr = SVPCatalog.generateQrImage(testURL, qrSize);
@@ -86,12 +86,16 @@ public class SVPCatalogTest {
 		assertTrue(testFile.exists());
 	}
 
-	/*
+	
 	@Test
-	public void testSaveImageUrl(){
-		
+	public void testSaveImageByUrl(){
+		String filename = arg0+"testQr.jpg";
+		File testFile = new File(filename);
+		SVPCatalog.saveImage(testURL, filename);
+		assertTrue(testFile.exists());
 	}
 
+/*
 	@Test
 	public void testSaveImageBufferedImage(){
 		
