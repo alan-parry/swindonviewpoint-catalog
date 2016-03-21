@@ -18,8 +18,8 @@ public class SVPCatalogTest {
         System.out.println("@Before - setUp");
 		
 		System.out.println("os="+System.getProperty("os.name"));
-		
-		if (System.getProperty("os.name").indexOf("nix") >= 0) { 
+
+		if (System.getProperty("os.name").indexOf("Linux") >= 0) { 
 			arg0 = File.separator+"tmp"+File.separator;
 		} else {
 			arg0 = "C:"+File.separator+"temp"+File.separator;
