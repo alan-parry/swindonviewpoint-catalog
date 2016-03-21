@@ -118,7 +118,6 @@ public class SVPCatalog {
 				reader.readRecord();
 			}
 			while (reader.readRecord() && count < catalogItemCount){
-				System.out.println("nid="+reader.get("Nid"));
 				Entry entry = new Entry(count++,
 										Integer.parseInt(reader.get("Nid")),
 										reader.get("Duration"),
