@@ -7,7 +7,8 @@ public class EntryTest {
 
 	private static final int integer = 1;
 	private static final String string = "string";
-
+	private static final String qrPathString = "string" + File.separator + "temp" + File.separator + integer + Entry.thumbnailFilename;
+	private static final String thumbnailPathString = "string" + File.separator + "temp" + File.separator + integer + Entry.qrFilename;
 
 	private static final int setInteger = 2;
 	private static final String setString = "setString";
@@ -124,20 +125,10 @@ public class EntryTest {
 		assertEquals(string, entry.getQRPath());
 	}
 
-	@Test
-	public void testSetQRPath(){
-		entry.setQRPath(setString);
-		assertEquals(setString, entry.getQRPath());
-	}
 
 	@Test
 	public void testGetThumbnailPath(){
 		assertEquals(string, entry.getThumbnailPath());
 	}
 
-	@Test
-	public void testSetDescription(){
-		entry.setThumbnailPath(setString);
-		assertEquals(setString, entry.getThumbnailPath());
-	}
 }

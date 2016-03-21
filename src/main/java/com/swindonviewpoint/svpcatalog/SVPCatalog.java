@@ -53,7 +53,6 @@ public class SVPCatalog {
 	public static void main(String[] args) {
 		List<Entry> catalog = SVPCatalog.generateCatalog(args);
 		outputCatalog(catalog, args);
-		//SVPCatalog.saveThumbnails(catalog, args);
 	}
 	
 	public static void saveThumbnails(List<Entry> catalog, String args[]){
