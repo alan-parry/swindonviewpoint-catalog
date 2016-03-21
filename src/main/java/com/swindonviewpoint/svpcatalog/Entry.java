@@ -22,7 +22,8 @@ public class Entry {
 	
 	public static final String thumbnailFilename = "-thumb.jpg";
 	public static final String qrFilename = "-qr.jpg";
-	
+	public static final String tempFolderName = "temp";
+
 	public Entry(int id, int nid, String duration, String title, String description,
 				 String thumbnailUrl, String producedDate, String path){
 		this.id = id;
@@ -106,6 +107,5 @@ public class Entry {
 	public void setProducedDate(String producedDate) {
 		this.producedDate = producedDate;
 	}
-	
 	
 }

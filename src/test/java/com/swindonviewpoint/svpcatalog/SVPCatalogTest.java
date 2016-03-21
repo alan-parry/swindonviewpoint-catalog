@@ -14,14 +14,15 @@ public class SVPCatalogTest {
 	private String[] args;
 
 	@Before
-    public void setUp() throws IOException 
-{       System.out.println("@Before - setUp");
+    public void setUp() throws IOException {
+        System.out.println("@Before - setUp");
 		
 		if (System.getProperty("os.name").indexOf("nix") >= 0) { 
 			arg0 = File.separator+"tmp"+File.separator;
 		} else {
 			arg0 = "C:"+File.separator+"temp"+File.separator;
 		}
+
 
         arg1 = "0";
         arg2 = "24";

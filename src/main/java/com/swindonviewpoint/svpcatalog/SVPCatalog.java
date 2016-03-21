@@ -51,7 +51,7 @@ public class SVPCatalog {
 	public static int rows = 3;
 	
 	public static final String catalogCSVUrl = "http://www.swindonviewpoint.com/all_video.csv";
-	
+
 	/**
 	 * @param args
 	 */
