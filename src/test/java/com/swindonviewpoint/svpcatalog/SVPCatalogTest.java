@@ -71,6 +71,15 @@ public class SVPCatalogTest {
 		assertTrue(qr.getHeight() == size);
 	}
 
+	@Test
+	public void testSaveImageUrl(){
+		String filename = arg0+"testQr.jpg";
+		File testFile = new File(filename);
+		BufferedImage qr = SVPCatalog.generateQrImage(testURL, size);
+		SVPCatalog.saveImage(qr, fileName);
+		assertTrue(testFile.exists());
+	}
+
 	/*
 	@Test
 	public void testSaveImageUrl(){
