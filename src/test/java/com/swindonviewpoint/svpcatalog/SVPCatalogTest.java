@@ -4,7 +4,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import java.io.*;
 import java.util.List;
-
+import java.awt.image.BufferedImage;
 public class SVPCatalogTest {
 
 	private List<Entry> catalog;
@@ -12,6 +12,7 @@ public class SVPCatalogTest {
 	private String arg1;
 	private String arg2;
 	private String[] args;
+	private String testURL = "http://www.swindonviewpoint.com/";
 
 	@Before
     public void setUp() throws IOException {
@@ -58,12 +59,19 @@ public class SVPCatalogTest {
 	public void testSaveThumbnails(){
 		
 	}
+	*/
 
 	@Test
 	public void testGenerateQrImage(){
+		int size = 150;
+
 		
+		BufferedImage qr = SVPCatalog.generateQrImage(testURL, size);
+		assertTrue(qr.getWidth() == size);
+		assertTrue(qr.getHeight() == size);
 	}
 
+	/*
 	@Test
 	public void testSaveImageUrl(){
 		
@@ -74,11 +82,15 @@ public class SVPCatalogTest {
 		
 	}
 
+*/
+
 	@Test
 	public void testGetQRUrl(){
-		
+		String qRUrl = SVPCatalog.getQRUrl(testURL);
+		assertTrue(qRUrl != null);
 	}
 
+/*
 	@Test
 	public void testdrawPageNumber(){
 		
