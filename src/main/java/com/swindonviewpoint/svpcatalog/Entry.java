@@ -20,14 +20,11 @@ public class Entry {
 	
 	private String path;
 	
-	private String baseDir;
-	
 	public static final String thumbnailFilename = "-thumb.jpg";
-	
 	public static final String qrFilename = "-qr.jpg";
 	
 	public Entry(int id, int nid, String duration, String title, String description,
-				 String thumbnailUrl, String producedDate, String path, String baseDir){
+				 String thumbnailUrl, String producedDate, String path){
 		this.id = id;
 		this.nid = nid;
 		this.duration = duration;
@@ -36,23 +33,14 @@ public class Entry {
 		this.thumbnailUrl = thumbnailUrl;
 		this.producedDate = producedDate;
 		this.path = path;
-		this.baseDir = baseDir;
 	}
 
-	public String getThumbnailPath() {
-		return baseDir + File.separator + "temp" + File.separator + id + thumbnailFilename;
-	}
-	
-	public String getQRPath() {
-		return baseDir + File.separator + "temp" + File.separator + id + qrFilename;
+	public String getQRFilename() {
+		 return  id + qrFilename;
 	}
 
-	public String getBaseDir() {
-		return baseDir;
-	}
-
-	public void setBaseDir(String baseDir) {
-		this.baseDir = baseDir;
+	public String getThumbnailFilename() {
+		 return  id + thumbnailFilename;
 	}
 
 	public String getPath() {

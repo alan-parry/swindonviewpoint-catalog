@@ -8,8 +8,8 @@ public class EntryTest {
 
 	private static final int integer = 1;
 	private static final String string = "string";
-	private static final String qrPathString = "string" + File.separator + "temp" + File.separator + integer + Entry.qrFilename;
-	private static final String thumbnailPathString = "string" + File.separator + "temp" + File.separator + integer + Entry.thumbnailFilename;
+	private static final String qrPathString = integer + Entry.qrFilename;
+	private static final String thumbnailPathString = integer + Entry.thumbnailFilename;
 
 	private static final int setInteger = 2;
 	private static final String setString = "setString";
@@ -18,7 +18,7 @@ public class EntryTest {
 
 	@Before
     public void setUp() {
-        entry = new Entry(integer, integer, string, string, string, string, string, string, string);
+        entry = new Entry(integer, integer, string, string, string, string, string, string);
         System.out.println("@Before - setUp");
     }
 
@@ -111,24 +111,13 @@ public class EntryTest {
 	}
 
 	@Test
-	public void testGetBaseDir(){
-		assertEquals(string, entry.getBaseDir());
+	public void testGetQRFilename(){
+		assertEquals(qrPathString, entry.getQRFilename());
 	}
 
 	@Test
-	public void testSetBaseDir(){
-		entry.setBaseDir(setString);
-		assertEquals(setString, entry.getBaseDir());
-	}
-
-	@Test
-	public void testGetQRPath(){
-		assertEquals(qrPathString, entry.getQRPath());
-	}
-
-	@Test
-	public void testGetThumbnailPath(){
-		assertEquals(thumbnailPathString, entry.getThumbnailPath());
+	public void testGetThumbnailFilename(){
+		assertEquals(thumbnailPathString, entry.getThumbnailFilename());
 	}
 
 }
