@@ -28,6 +28,15 @@ public class SVPCatalogTest {
 			arg0 = "C:"+File.separator+"temp"+File.separator;
 		}
 
+		File tempFolder = new File(arg0);
+		File[] files = tempFolder.listFiles();
+		if(files!=null) {
+	        for(File f: files) {
+	            if(!f.isDirectory()) {
+	                f.delete();
+	            }
+	        }
+	    }
 
         arg1 = "0";
         arg2 = "24";
@@ -42,7 +51,7 @@ public class SVPCatalogTest {
     }
 
 	@Test
-	public void testMain() {
+	public void testMain() throws IOException {
         SVPCatalog.main(args);
     }
 
@@ -67,13 +76,6 @@ public class SVPCatalogTest {
 		assertTrue(outputFolder.listFiles().length > 0);
 	}
 
-	/*
-	@Test
-	public void testSaveThumbnails(){
-		
-	}
-	*/
-
 	@Test
 	public void testGenerateQrImage(){
 		BufferedImage qr = SVPCatalog.generateQrImage(testURL, qrSize);
@@ -89,23 +91,14 @@ public class SVPCatalogTest {
 		SVPCatalog.saveImage(qr, filename);
 		assertTrue(testFile.exists());
 	}
-
 	
 	@Test
 	public void testSaveImageByUrl(){
-		String filename = arg0+"testQr.jpg";
+		String filename = arg0+"testQrByUrl.jpg";
 		File testFile = new File(filename);
 		SVPCatalog.saveImage(testURL, filename);
 		assertTrue(testFile.exists());
 	}
-
-/*
-	@Test
-	public void testSaveImageBufferedImage(){
-		
-	}
-
-*/
 
 	@Test
 	public void testGetQRUrl(){
@@ -113,11 +106,4 @@ public class SVPCatalogTest {
 		assertTrue(qRUrl != null);
 	}
 
-/*
-	@Test
-	public void testdrawPageNumber(){
-		
-	}
-	*/
-	
 }
