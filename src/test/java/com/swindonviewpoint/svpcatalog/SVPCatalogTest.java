@@ -50,6 +50,13 @@ public class SVPCatalogTest {
 	}
 
 	@Test
+	public void testGenerateCatalogBadArguments(){
+		args = new String[0];
+		catalog = SVPCatalog.generateCatalog(args);
+		assertNull(catalog);
+	}
+
+	@Test
 	public void testOutputCatalog(){
 		SVPCatalog.outputCatalog(catalog, args);
 		File outputFolder = new File(arg0 + File.separator);

@@ -61,59 +61,62 @@ public class SVPCatalog {
 	}
 	
 	public static List<Entry> generateCatalog(String args[]) throws IOException {
+		List<Entry> catalog = null;
+
 		if (args.length < 3) {
 			System.out.println("Usage : SVPCatalog <workingPath> <startId> <itemCount>");
-		}
+		} else {
 		
-		int count = 0;
-		String tempFolder = args[0];
+			int count = 0;
+			String tempFolder = args[0];
 
-		int catalogStartId = Integer.parseInt(args[1]);
-		int catalogItemCount = Integer.parseInt(args[2]);
-		List<Entry> catalog = new ArrayList<Entry>();
-		URL catalogURL = new URL("http://www.swindonviewpoint.com/catalog.csv");
-		URLConnection connection = catalogURL.openConnection();
-        BufferedReader bufferedReader = new BufferedReader(
-                                new InputStreamReader(
-                                    connection.getInputStream()));
+			int catalogStartId = Integer.parseInt(args[1]);
+			int catalogItemCount = Integer.parseInt(args[2]);
+			catalog = new ArrayList<Entry>();
+			URL catalogURL = new URL("http://www.swindonviewpoint.com/catalog.csv");
+			URLConnection connection = catalogURL.openConnection();
+	        BufferedReader bufferedReader = new BufferedReader(
+	                                new InputStreamReader(
+	                                    connection.getInputStream()));
 
-		System.out.println("Parsing CSV file: " + catalogURL);
-		try {
-			CsvReader reader = new CsvReader(bufferedReader);
-				
-			reader.readHeaders();
-		
-			for (int i = 0; i < catalogStartId; i++) {
-				reader.readRecord();
-			}
-			while (reader.readRecord() && count < catalogItemCount){
-				Entry entry = new Entry(count++,
-										Integer.parseInt(reader.get("Nid")),
-										reader.get("Duration"),
-										reader.get("Title"),
-										reader.get("Description"),
-										reader.get("Large Thumbnail"),
-										reader.get("Produced"),
-										reader.get("Path"));
-				catalog.add(entry);
-			}
-			System.out.println("Read "+catalog.size() + " catalog entries");
+			System.out.println("Parsing CSV file: " + catalogURL);
+			try {
+				CsvReader reader = new CsvReader(bufferedReader);
+					
+				reader.readHeaders();
 			
-			for (int j = 0; j < catalog.size() ; j++){
-				Entry entry = catalog.get(j);
-				saveImage(entry.getThumbnailUrl(), tempFolder+entry.getThumbnailFilename());
-				File qr = new File(tempFolder+entry.getQRFilename());
-				
-				if (!qr.exists()){
-					BufferedImage im = generateQrImage(entry.getPath(), 150);
-					saveImage(im, tempFolder+entry.getQRFilename());
+				for (int i = 0; i < catalogStartId; i++) {
+					reader.readRecord();
 				}
+				while (reader.readRecord() && count < catalogItemCount){
+					Entry entry = new Entry(count++,
+											Integer.parseInt(reader.get("Nid")),
+											reader.get("Duration"),
+											reader.get("Title"),
+											reader.get("Description"),
+											reader.get("Large Thumbnail"),
+											reader.get("Produced"),
+											reader.get("Path"));
+					catalog.add(entry);
+				}
+				System.out.println("Read "+catalog.size() + " catalog entries");
+				
+				for (int j = 0; j < catalog.size() ; j++){
+					Entry entry = catalog.get(j);
+					saveImage(entry.getThumbnailUrl(), tempFolder+entry.getThumbnailFilename());
+					File qr = new File(tempFolder+entry.getQRFilename());
+					
+					if (!qr.exists()){
+						BufferedImage im = generateQrImage(entry.getPath(), 150);
+						saveImage(im, tempFolder+entry.getQRFilename());
+					}
+				}
+				
+			} catch (Exception e){
+				e.printStackTrace();
 			}
-			
-		} catch (Exception e){
-			e.printStackTrace();
 		}
-		
+
 		return catalog;
 	}
 		
@@ -445,20 +448,20 @@ public class SVPCatalog {
 		File image = new File(file);
 		
 			if (!image.exists()) {
-		    try {
-		        client.executeMethod(method);
-		        byte[] responseBody = method.getResponseBody();
-		        
-		        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-		        bos.write(responseBody);
-		        bos.flush();
-		        bos.close();
-		        
-		        System.out.println("Saved url:"+url+ " to " + file);
-		        
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		    }
+			    try {
+			        client.executeMethod(method);
+			        byte[] responseBody = method.getResponseBody();
+			        
+			        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+			        bos.write(responseBody);
+			        bos.flush();
+			        bos.close();
+			        
+			        System.out.println("Saved url:"+url+ " to " + file);
+			        
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
 			} else {
 				System.out.println("Did not save url:" + url + ", Exists file:"+ file);
 			}
