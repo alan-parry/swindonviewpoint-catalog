@@ -60,37 +60,6 @@ public class SVPCatalog {
 		outputCatalog(catalog, args);
 	}
 	
-	public static void saveThumbnails(List<Entry> catalog, String args[]){
-		String filename = args[0].concat(File.separator + "catalog.csv");
-		System.out.println("Parsing CSV file: "+filename);
-		try {
-			CsvReader reader = new CsvReader(filename);
-			
-			reader.readHeaders();
-			int i = 0;
-			String dir = args[0] + File.separator + "thumbs" + File.separator;
-			File thumbsDir = new File(dir);
-			if (!thumbsDir.exists()) {
-				thumbsDir.mkdir();
-			}
-			
-			while (reader.readRecord()){
-				String url = reader.get("url");
-				i++;
-				
-				Iterator<Entry> catalogIterator = catalog.iterator();
-				while (catalogIterator.hasNext() ){
-					Entry entry = catalogIterator.next();
-					if (entry.getPath().equals(url)){
-						SVPCatalog.saveImage(entry.getThumbnailUrl(), dir+i+".jpg");
-					}
-				}
-			}
-		} catch (Exception e) {
-			
-		}
-	}
-	
 	public static List<Entry> generateCatalog(String args[]) throws IOException {
 		if (args.length < 3) {
 			System.out.println("Usage : SVPCatalog <workingPath> <startId> <itemCount>");
