@@ -17,6 +17,8 @@ public class SVPCatalogTest {
     public void setUp() throws IOException {
         System.out.println("@Before - setUp");
 		
+		System.out.println("os="+System.getProperty("os.name"));
+		
 		if (System.getProperty("os.name").indexOf("nix") >= 0) { 
 			arg0 = File.separator+"tmp"+File.separator;
 		} else {
