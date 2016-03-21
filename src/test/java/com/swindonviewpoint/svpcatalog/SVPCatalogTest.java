@@ -41,7 +41,11 @@ public class SVPCatalogTest {
         catalog = SVPCatalog.generateCatalog(args);
     }
 
-	
+	@Test
+	public static void test() {
+        SVPCatalog.main(args);
+    }
+
 	@Test
 	public void testGenerateCatalog(){
 		File tempFolder = new File(arg0 + File.separator);
