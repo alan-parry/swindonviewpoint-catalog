@@ -2,3 +2,18 @@ language: java
 script: mvn test
 after_success:
   - mvn clean cobertura:cobertura coveralls:report
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "enVS3dCPon/qGj36KHxRfl+ShrHrRql4dSeh+XI4wIlsQytjWVNqrgtSd9AoF4CW5WZZCpNFejGSAM3hqHRAmdBcBp/wovAOm2xlFP7qzV0NcxnET1hbzHrmblNcC6GyTXciIDJ6rx6k4MPyoc6uoB9RRhSpQqtBDlQEfa8cS3UCs1luuw+Pf4NN+ddEB0qgO2G0ZE8/0iqgenXsXtL6b0vlncw74g66JcRAidTbc6aOpyx+Rq3+OgLPRQ5pTf5++1PdwYvRlnmhTTPHSCiKpMkxUKJSomNahEeBKz9AvjPTMB75lwal+lqMzXJEMMU5La+lNbOSkTyYx4osFOPtM65mk6UkyIEgBRQybJ8GIFvJ7YafOhjEOgo7Wy953F00oYNQi/Do/2alxiRX6G32KsMQWV/Uvas9k7CpymEUO9W+T3o+kYXXdwKIAHNTneoZKZBJLQ7AQ4nZMp5z4x25gEC67QVnvfB7xo92ZsNlt2RR3lrpnRK1omy6jdB+bsGvTauh/tQWPgLPbLkrxGACTFOsoNiPkospJiFUGnfp0jgou9J0mbpv1c92FpgQDuBB5TFgSZvGTp1sDivRFkqm1U3LZQv8EXQ+yMXOuidnvGW2xon6f7mYMG8Hg8JUSB3sY+s/XoMOJ2p6klZki+M8qgc4RfbHRir8caBxKCoqKKg="
+
+addons:
+  coverity_scan:
+    project:
+      name: "alan-parry/swindonviewpoint-catalog"
+      description: "Build submitted via Travis CI"
+    notification_email: alan@parry.me.uk
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -DskipTests=true compile"
+    branch_pattern: coverity_scan
