@@ -42,7 +42,7 @@ public class SVPCatalogTest {
     }
 
 	@Test
-	public static void test() {
+	public void testMain() {
         SVPCatalog.main(args);
     }
 
