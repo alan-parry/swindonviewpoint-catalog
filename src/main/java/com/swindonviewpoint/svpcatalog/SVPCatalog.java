@@ -430,13 +430,14 @@ public class SVPCatalog {
 			return "http://www.swindonviewpoint.com"+body.substring(startIndex, endIndex);
 		} catch (HttpException e) {
 			e.printStackTrace();
+
+			return null;
 		} catch (IOException e) {
 			e.printStackTrace();
+
+			return null;
 		}
 		
-		
-		
-		return "";
 	}
 	
 	

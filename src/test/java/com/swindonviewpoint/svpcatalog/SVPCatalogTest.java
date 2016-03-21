@@ -106,4 +106,11 @@ public class SVPCatalogTest {
 		assertTrue(qRUrl != null);
 	}
 
+	// To ensure coverage
+	@Test
+	public void testGetQRUrlBadUrl(){
+		String qRUrl = SVPCatalog.getQRUrl(testBadURL);
+		asertNull(qRUrl);
+	}
+
 }
