@@ -13,7 +13,9 @@ public class SVPCatalogTest {
 	private String arg2;
 	private String[] args;
 	private String testURL = "http://www.swindonviewpoint.com/";
+	private int qrSize = 150;
 
+		
 	@Before
     public void setUp() throws IOException {
         System.out.println("@Before - setUp");
@@ -63,19 +65,16 @@ public class SVPCatalogTest {
 
 	@Test
 	public void testGenerateQrImage(){
-		int size = 150;
-
-		
-		BufferedImage qr = SVPCatalog.generateQrImage(testURL, size);
-		assertTrue(qr.getWidth() == size);
-		assertTrue(qr.getHeight() == size);
+		BufferedImage qr = SVPCatalog.generateQrImage(testURL, qrSize);
+		assertTrue(qr.getWidth() == qrSize);
+		assertTrue(qr.getHeight() == qrSize);
 	}
 
 	@Test
 	public void testSaveImageUrl(){
 		String filename = arg0+"testQr.jpg";
 		File testFile = new File(filename);
-		BufferedImage qr = SVPCatalog.generateQrImage(testURL, size);
+		BufferedImage qr = SVPCatalog.generateQrImage(testURL, qrSize);
 		SVPCatalog.saveImage(qr, fileName);
 		assertTrue(testFile.exists());
 	}
