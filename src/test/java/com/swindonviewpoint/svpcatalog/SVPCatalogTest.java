@@ -101,17 +101,4 @@ public class SVPCatalogTest {
 		assertTrue(testFile.exists());
 	}
 
-	@Test
-	public void testGetQRUrl(){
-		String qRUrl = SVPCatalog.getQRUrl(testURL);
-		assertTrue(qRUrl != null);
-	}
-
-	// To ensure coverage
-	@Test
-	public void testGetQRUrlBadUrl(){
-		String qRUrl = SVPCatalog.getQRUrl(testBadURL);
-		assertNull(qRUrl);
-	}
-
 }
