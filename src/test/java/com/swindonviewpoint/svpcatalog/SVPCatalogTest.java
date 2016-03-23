@@ -13,6 +13,7 @@ public class SVPCatalogTest {
 	private String arg2;
 	private String[] args;
 	private String testURL = "http://www.swindonviewpoint.com/";
+	private String testBadURL = "http://bad/bad";
 	private int qrSize = 150;
 
 		
@@ -28,8 +29,17 @@ public class SVPCatalogTest {
 			arg0 = "C:"+File.separator+"temp"+File.separator;
 		}
 
+		File tempFolder = new File(arg0);
+		File[] files = tempFolder.listFiles();
+		if(files!=null) {
+	        for(File f: files) {
+	            if(!f.isDirectory()) {
+	                f.delete();
+	            }
+	        }
+	    }
 
-        arg1 = "0";
+        arg1 = "1";
         arg2 = "24";
 
         args = new String[3];
@@ -41,7 +51,11 @@ public class SVPCatalogTest {
         catalog = SVPCatalog.generateCatalog(args);
     }
 
-	
+	@Test
+	public void testMain() throws IOException {
+        SVPCatalog.main(args);
+    }
+
 	@Test
 	public void testGenerateCatalog(){
 		File tempFolder = new File(arg0 + File.separator);
@@ -63,13 +77,6 @@ public class SVPCatalogTest {
 		assertTrue(outputFolder.listFiles().length > 0);
 	}
 
-	/*
-	@Test
-	public void testSaveThumbnails(){
-		
-	}
-	*/
-
 	@Test
 	public void testGenerateQrImage(){
 		BufferedImage qr = SVPCatalog.generateQrImage(testURL, qrSize);
@@ -85,35 +92,13 @@ public class SVPCatalogTest {
 		SVPCatalog.saveImage(qr, filename);
 		assertTrue(testFile.exists());
 	}
-
 	
 	@Test
 	public void testSaveImageByUrl(){
-		String filename = arg0+"testQr.jpg";
+		String filename = arg0+"testQrByUrl.jpg";
 		File testFile = new File(filename);
 		SVPCatalog.saveImage(testURL, filename);
 		assertTrue(testFile.exists());
 	}
 
-/*
-	@Test
-	public void testSaveImageBufferedImage(){
-		
-	}
-
-*/
-
-	@Test
-	public void testGetQRUrl(){
-		String qRUrl = SVPCatalog.getQRUrl(testURL);
-		assertTrue(qRUrl != null);
-	}
-
-/*
-	@Test
-	public void testdrawPageNumber(){
-		
-	}
-	*/
-	
 }

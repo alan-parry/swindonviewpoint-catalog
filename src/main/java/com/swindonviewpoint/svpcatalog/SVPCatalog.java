@@ -57,7 +57,9 @@ public class SVPCatalog {
 	 */
 	public static void main(String[] args) throws IOException {
 		List<Entry> catalog = SVPCatalog.generateCatalog(args);
-		outputCatalog(catalog, args);
+		if (catalog != null) {
+			outputCatalog(catalog, args);
+		}
 	}
 	
 	public static List<Entry> generateCatalog(String args[]) throws IOException {
@@ -132,12 +134,16 @@ public class SVPCatalog {
 			File svpBoldFontFile = new File(classLoader.getResource("svp-bold.ttf").getFile());
 			InputStream is = new FileInputStream(svpBoldFontFile);
 		    Font font = Font.createFont(Font.TRUETYPE_FONT, is);
+		    is.close();
+
 		    Font subFont = font.deriveFont(22.0f);
 		    Font titleFont = font.deriveFont(30.0f);
 		    
 		    File svpFontFile = new File(classLoader.getResource("svp.ttf").getFile());
 		    is = new FileInputStream(svpFontFile);
 		    Font medi = Font.createFont(Font.TRUETYPE_FONT, is);
+		    is.close();
+
 		    Font medi18 = medi.deriveFont(20.0f);
 		    
 			Color orange = new Color(249, 111, 18);
@@ -430,13 +436,14 @@ public class SVPCatalog {
 			return "http://www.swindonviewpoint.com"+body.substring(startIndex, endIndex);
 		} catch (HttpException e) {
 			e.printStackTrace();
+
+			return null;
 		} catch (IOException e) {
 			e.printStackTrace();
+
+			return null;
 		}
 		
-		
-		
-		return "";
 	}
 	
 	
