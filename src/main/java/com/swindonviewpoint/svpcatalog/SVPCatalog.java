@@ -517,4 +517,8 @@ public class SVPCatalog {
 	    
 	    return image;
 	}
+
+	public String toString(){
+		return catalogCSVUrl;
+	}
 }
