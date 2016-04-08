@@ -79,7 +79,7 @@ public class SVPCatalog {
 			URLConnection connection = catalogURL.openConnection();
 	        BufferedReader bufferedReader = new BufferedReader(
 	                                new InputStreamReader(
-	                                    connection.getInputStream()));
+	                                    connection.getInputStream(), Charset.forName("UTF-8")));
 
 			System.out.println("Parsing CSV file: " + catalogURL);
 			try {
@@ -110,7 +110,9 @@ public class SVPCatalog {
 					
 					if (!qr.exists()){
 						BufferedImage im = generateQrImage(entry.getPath(), 150);
-						saveImage(im, tempFolder+entry.getQRFilename());
+						if (im != null) {
+							saveImage(im, tempFolder+entry.getQRFilename());
+						}
 					}
 				}
 				
@@ -122,29 +124,39 @@ public class SVPCatalog {
 		return catalog;
 	}
 		
-	public static void outputCatalog(List<Entry> catalog, String args[]) {
+	public static int outputCatalog(List<Entry> catalog, String args[]) {
 		//render pages
 		int catalogStartId = Integer.parseInt(args[1]);
 		int catalogItemCount = Integer.parseInt(args[2]);
 		int end = catalogStartId+catalogItemCount;
 		String tempFolder = args[0];
-
+		InputStream is = null;
+		Font font, subFont, titleFont, medi, medi18;
 		try {
 			ClassLoader classLoader = SVPCatalog.class.getClassLoader();
 			File svpBoldFontFile = new File(classLoader.getResource("svp-bold.ttf").getFile());
-			InputStream is = new FileInputStream(svpBoldFontFile);
-		    Font font = Font.createFont(Font.TRUETYPE_FONT, is);
-		    is.close();
+			is = new FileInputStream(svpBoldFontFile);
+		    try {
+		    	font = Font.createFont(Font.TRUETYPE_FONT, is);
+		    	subFont = font.deriveFont(22.0f);
+		    	titleFont = font.deriveFont(30.0f);
+		    	is.close();
+		    } catch (java.awt.FontFormatException FFe) {
+		    	is.close();
+		    	return 0;
+		    }
 
-		    Font subFont = font.deriveFont(22.0f);
-		    Font titleFont = font.deriveFont(30.0f);
 		    
 		    File svpFontFile = new File(classLoader.getResource("svp.ttf").getFile());
 		    is = new FileInputStream(svpFontFile);
-		    Font medi = Font.createFont(Font.TRUETYPE_FONT, is);
-		    is.close();
-
-		    Font medi18 = medi.deriveFont(20.0f);
+		    try {
+		    	medi = Font.createFont(Font.TRUETYPE_FONT, is);
+		    	medi18 = medi.deriveFont(20.0f);
+		    	is.close();
+		    } catch (java.awt.FontFormatException FFe) {
+		    	is.close();
+		    	return 0;
+		    }
 		    
 			Color orange = new Color(249, 111, 18);
 			
@@ -373,7 +385,11 @@ public class SVPCatalog {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			
 		}
+
+		return 1;
 	}
 	
 	public static void drawPageNumber(int pageNumber, Graphics2D graphics, String[] args,
@@ -410,40 +426,7 @@ public class SVPCatalog {
 			graphics.drawString(Integer.toString(pageNumber), pageNumX+fontX, pageNumY+fontY);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	    
-		
-	}
-	public static String getQRUrl(String url){
-		HttpClient client = new HttpClient();
-		HttpMethod method = new GetMethod(url);
-		System.out.println("getting url:" + url);
-		
-		try {
-			client.executeMethod(method);
-			String body = method.getResponseBodyAsString();
-			System.out.println("--URL--\n"+url);
-			System.out.println(body);
-			int index = body.indexOf("QRCode");
-			index = body.indexOf("src=", index);
-			int startIndex = index + 5;
-			int endIndex = body.indexOf(".png", startIndex)+4;
-			method.releaseConnection();
-			method = null;
-			client = null;
-			
-			
-			return "http://www.swindonviewpoint.com"+body.substring(startIndex, endIndex);
-		} catch (HttpException e) {
-			e.printStackTrace();
-
-			return null;
-		} catch (IOException e) {
-			e.printStackTrace();
-
-			return null;
-		}
-		
+		}	
 	}
 	
 	
@@ -472,8 +455,6 @@ public class SVPCatalog {
 			} else {
 				System.out.println("Did not save url:" + url + ", Exists file:"+ file);
 			}
-			
-		
 	}
 
 	
@@ -523,17 +504,21 @@ public class SVPCatalog {
 	            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 	            
 	            matrix = writer.encode(data, com.google.zxing.BarcodeFormat.QR_CODE, size, size, hints);
+	            image = MatrixToImageWriter.toBufferedImage(matrix);
 	        } catch (com.google.zxing.WriterException e) {
 	            System.out.println(e.getMessage());
-	        }
-	        
-	        image = MatrixToImageWriter.toBufferedImage(matrix);
-	    
+	            e.printStackTrace();
+	        }	    
 	        
 	    } catch (UnsupportedEncodingException UEe) {
+	        System.out.println(UEe.getMessage());
 	        UEe.printStackTrace();
 		}
 	    
 	    return image;
+	}
+
+	public String toString(){
+		return catalogCSVUrl;
 	}
 }
